@@ -1,0 +1,11 @@
+*.cfg
+*.txt
+*.cmake
+Makefile
+*.stash
+CMakeFiles
+main_autogen
+.vscode
+main
+SFML_App
+!CMakeLists.txt
