@@ -5,12 +5,12 @@
 
 App::App() : holding(false), showShape(true) { 
     EventHandler::getEventHandler()->addMouseObserver(this); 
-    // Création du ressort
+    // Create srping
     Spring ressort  = {7000.0f, 30.f};
     m_typeRessort = ressort;
 
-    // Création listes des masses
-    createSoftBody(sf::Vector2f(200,20), sf::Vector2f(5,5), 1.0f, 30.f);
+    // create each mass
+    createSoftBody(sf::Vector2f(200,20), sf::Vector2f(5,12), 1.0f, 30.f);
     m_selectedMass=nullptr;
 
     m_listSupport.push_back(Masse(sf::Vector2f(100, 400),10, true));
@@ -67,7 +67,7 @@ void App::link(Masse& m1, Masse& m2) {
 
 void App::update(sf::Time deltaTime) {
 
-    // Gestion input
+    // input handling
     if(m_selectedMass!=nullptr) {
         m_selectedMass->m_pos = holdingPoint - m_selectedMass->m_shape.getSize()*(0.5f);
         m_selectedMass->m_vit = sf::Vector2f(0,0);
@@ -75,7 +75,7 @@ void App::update(sf::Time deltaTime) {
         m_selectedMass->m_shape.setPosition(m_listMasse[0].m_pos);
     }
 
-    // Remise à zero de l'accélération
+    // reset acceleration
     for(int i=0; i<m_listMasse.size(); i++) {
         if(m_listMasse[i].m_isFixed) m_listMasse[i].m_acc = sf::Vector2f(0,0);
         else m_listMasse[i].m_acc = sf::Vector2f(0,G);
@@ -86,7 +86,7 @@ void App::update(sf::Time deltaTime) {
     for(int i=0; i<m_listMasse.size(); i++) {
         m_listMasse[i].m_vit +=  m_listMasse[i].m_acc * deltaTime.asSeconds();
 
-        // Résolution statique d'abord
+        // static resolution
         sf::Vector2f nextPos = m_listMasse[i].m_pos + m_listMasse[i].m_vit * deltaTime.asSeconds();
         nextPos += sf::Vector2f(m_listMasse[i].m_shape.getSize().x/2, m_listMasse[i].m_shape.getSize().y/2);
 
@@ -144,7 +144,7 @@ void App::notify(sf::Mouse::Button mouse, sf::Vector2i& pos, bool clicked) {
 }
 
 void App::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    // Dessiner les lignes
+    // draw lines
     sf::VertexArray va(sf::Lines, m_lienMasse.size()*2);
     for(int i=0; i<m_lienMasse.size(); i++) {
         va[i*2].position = sf::Vector2f(m_lienMasse[i][0]->m_pos.x + m_lienMasse[i][0]->m_shape.getSize().x/2,m_lienMasse[i][0]->m_pos.y + m_lienMasse[i][0]->m_shape.getSize().y/2); 
@@ -155,7 +155,7 @@ void App::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     }
     target.draw(va);
 
-    // Dessiner les formes
+    // draw shapes
     if (showShape) for(int i=0; i<m_listMasse.size(); i++) target.draw(m_listMasse[i].m_shape);
     for(int i=0; i<m_listSupport.size(); i++) target.draw(m_listSupport[i].m_shape);
 }

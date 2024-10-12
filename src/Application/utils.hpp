@@ -8,12 +8,9 @@
 #define PI 3.14159
 
 /**
- *  @brief Renvoie un float pseudo-aléatoirement.
- *
- *  @param Min: Borne inférieur de la sélection
- *  @param Max: Borne supérieur de la sélection
+ *  @brief Returns a pseudo-random float.
  **/
-inline float randF(float Min, float Max) // Renvoie un nombre float dans l'intervalle [Min;Max]
+inline float randF(float Min, float Max) 
 {
     float offset=0;
     if(abs(Min) > 0) { offset = Min; }
@@ -22,12 +19,9 @@ inline float randF(float Min, float Max) // Renvoie un nombre float dans l'inter
 }
 
 /**
- *  @brief Renvoie un entier pseudo-aléatoirement.
- *
- *  @param Min: Borne inférieur de la sélection
- *  @param Max: Borne supérieur de la sélection
- **/float m_ax, m_ay;
-inline int randI(int Min, int Max) // Renvoie un nombre entier dans l'intervalle [Min;Max]
+ *  @brief Returns a pseudo-random int.
+ **/
+inline int randI(int Min, int Max) 
 {
     int offset=0;
     if(abs(Min) > 0) { offset = Min; }
@@ -36,12 +30,12 @@ inline int randI(int Min, int Max) // Renvoie un nombre entier dans l'intervalle
 }
 
 /**
- *  @brief Renvoie l'angle entre l'axe formé avec les deux points et l'axe horizontal.
+ *  @brief Returns the angle between the segment formed with two points and the horizontal axis.
  *
- *  @param origine: Point d'origine du vecteur de l'axe
- *  @param point: Point directeur du vecteur de l'axe
+ *  @param origine: Origin point of axis vector
+ *  @param point: Vector point of the horizontal axis
  *
- *  @return Angle en RADIANS
+ *  @return Angle in RADIANS
  **/
 inline float findAngle_OldVersion(const sf::Vector2f& origine, const sf::Vector2f& point)
 {
@@ -69,11 +63,11 @@ inline float findAngle(const sf::Vector2f& origine, const sf::Vector2f& point)
 }
 
 /**
- *  @brief Effectue la rotation d'un point autour d'un centre dans le sens trigonométrique.
+ *  @brief Rotates a point around a center in the trigonometric direction.
  *
- *  @param angleSupp: Angle de rotation souhaité (en Radian)
- *  @param origine: Point d'origine
- *  @param point: Point subissant la rotation
+ *  @param angleSupp: Desired rotation angle (in radians)
+ *  @param origine: Point of origin
+ *  @param point: Point undergoing rotation
  **/
 inline void rotationPts(const float angleSupp, const sf::Vector2f origine, sf::Vector2f& point) // rotation dans le sens horaire d'un point
 {
@@ -82,13 +76,13 @@ inline void rotationPts(const float angleSupp, const sf::Vector2f origine, sf::V
 
     angle += angleSupp;
 
-    //changement de la position du point
+    //change the position of the point
     point.x = normeVect * cos(angle) + origine.x;
-    point.y = /* y est inversé dans le repère global */ -normeVect * sin(angle) + origine.y;
+    point.y = /* y is inverted in the global landmark */ -normeVect * sin(angle) + origine.y;
 }
 
-// Détermine si deux solides (Convexes et définis par un ensemble de points) se chevauchent
-// Renvoie true si c'est le cas , false sinon
+// Determines whether two solids (convex and defined by a set of points) overlap
+// Returns true if true , false otherwise
 inline bool overlappingSAT(sf::VertexArray &j1, sf::VertexArray &j2)
 {
 
@@ -116,15 +110,15 @@ inline bool overlappingSAT(sf::VertexArray &j1, sf::VertexArray &j2)
 }
 
 /**
- *  @brief Indique si les segments [p11 p12] et [p21 p22] se croisent.
+ *  @brief Indicates whether the [p11 p12] and [p21 p22] segments intersect.
  *
- *  @return True s'il y a collision, False sinon.
+ *  @return True if there is a collision, False otherwise
  **/
 inline bool crossingLines(sf::Vector2f& p11, sf::Vector2f& p12, sf::Vector2f& p21, sf::Vector2f& p22)
 {
-    float cd1, cd2; // Coef directeur des droites (p11 p12) et (p21 p22)
+    float cd1, cd2; // Coef director of the straight line (p11 p12) and (p21 p22)
 
-    /* Cas ou un des segments est vertical */
+    /*  Case where one of the segments is vertical  */
     if(p11.y == p12.y)
     {
         if(p11.y >= std::min(p21.y, p22.y) && p11.y <= std::max(p21.y, p22.y) && std::max(p11.x,p12.x) >= std::min(p21.x, p22.x) && std::max(p21.x,p22.x) >= std::min(p11.x, p12.x)) {
@@ -143,11 +137,11 @@ inline bool crossingLines(sf::Vector2f& p11, sf::Vector2f& p12, sf::Vector2f& p2
     cd1 = p11.x >= p12.x ? (p11.y - p12.y)/(p11.x - p12.x) : (p12.y - p11.y)/(p12.x - p11.x);
     cd2 = p21.x >= p22.x ? (p21.y - p22.y)/(p21.x - p22.x) : (p22.y - p21.y)/(p22.x - p21.x);
 
-    float co1, co2; // Coord à l'origine des droites (p11 p12) et (p21 p22)
+    float co1, co2; // Coord at the origin of the lines (p11 p12) and (p21 p22)
     co1= p11.y - cd1*p11.x;
     co2= p21.y - cd2*p21.x;
 
-    /* Cas segments parallèles */
+    /* Parallel segment cases */
     if(cd1 == cd2) {
         if( co1 == co2) {
             if(std::max(p11.x, p12.x) >= std::min(p21.x, p22.x) && std::max(p21.x, p22.x)>= std::min(p11.x, p12.x) && std::max(p11.y, p12.y) >= std::min(p21.y, p22.y) && std::max(p21.y, p22.y)>= std::min(p11.y, p12.y)) {
@@ -158,10 +152,10 @@ inline bool crossingLines(sf::Vector2f& p11, sf::Vector2f& p12, sf::Vector2f& p2
     }
 
     sf::Vector2f pointIntersection;
-    pointIntersection.x = (co2 - co1)/(cd1 - cd2); // On trouve l'absisse d'intersection => Risque de division par zéro
-    pointIntersection.y = cd1 * pointIntersection.x + co1; // Il ne reste plus qu'a retrouver y avec une des deux équations de droite
+    pointIntersection.x = (co2 - co1)/(cd1 - cd2); // We find the intersection axis => Risk of division by zero
+    pointIntersection.y = cd1 * pointIntersection.x + co1; //It remains only to find 'y' with one of the two equations of right
 
-    // On vérifie si ce point appartient aux deux segments [p11 p12] et [p21 p22] => Si vrai alors il y a croisement sinon c'est faux
+    // We check if this point belongs to the two segments [p11 p12] and [p21 p22] => If true then there is crossing otherwise it’s false
     if(pointIntersection.x >= std::min(p11.x, p12.x) && pointIntersection.x <= std::max(p11.x, p12.x) && pointIntersection.y >= std::min(p11.y, p12.y) && pointIntersection.y <= std::max(p11.y, p12.y)) {
         if(pointIntersection.x >= std::min(p21.x, p22.x) && pointIntersection.x <= std::max(p21.x, p22.x) && pointIntersection.y >= std::min(p21.y, p22.y) && pointIntersection.y <= std::max(p21.y, p22.y)) {
             return true;
@@ -171,12 +165,12 @@ inline bool crossingLines(sf::Vector2f& p11, sf::Vector2f& p12, sf::Vector2f& p2
 }
 
 /**
- *  @brief Indique si il y a une collision entre deux polygones à leurs frontières.
+ *  @brief Indicates if there is a collision between two polygons at their boundaries.
  *
- *  @param j1: Polygone 1
- *  @param j2: Polygone 2
+ *  @param j1: Polygon 1
+ *  @param j2: Polygon 2
  *
- *  @return True si il y a collision, False sinon.
+ *  @return True if there is a collision, false otherwise.
  **/
 inline bool overlappingCSL(sf::VertexArray &j1, sf::VertexArray &j2)
 {
@@ -195,4 +189,4 @@ inline bool overlappingCSL(sf::VertexArray &j1, sf::VertexArray &j2)
     return false;
 }
 
-#endif // INLINE_H_INCLUDED
+#endif

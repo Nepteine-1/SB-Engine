@@ -30,8 +30,8 @@ void NeuralNetwork::train(const Matrix& X_train, const Matrix& Y_train, const in
 
     std::cout << "Training started ~~~~~~~" << std::endl;
     for(int e=0; e<epoch; e++) {
-        // Initialisation
-        /* X_train correspond à A0*/
+        // Init
+        /* X_train corresponds to A0*/
         l_estimationA.push_back(X_train);
 
         // Forward propagation
@@ -77,8 +77,8 @@ void NeuralNetwork::predict(const Matrix& X_test, const Matrix& Y_test) {
     std::vector<Matrix> l_estimationA;
 
     std::cout << "Predictions ~~~~~~~" << std::endl;
-    // Initialisation
-    /* X_train correspond à A0*/
+    // Init
+    /* X_train corresponds to A0*/
     l_estimationA.push_back(X_test);
 
     // Forward propagation

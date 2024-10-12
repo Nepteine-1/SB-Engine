@@ -6,19 +6,19 @@
 #include "ParticuleGenerator.hpp"
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule de base /////////////////////////////  ( NE DOIS PAS ÊTRE UTILISÉE ! )
+    ////////////// Base particle template //////////////////////// 
     //////////////////////////////////////////////////////////////
 
 class Particule : public sf::Drawable
 {
     public:
         Particule();
-        Particule(const float X,const float Y, sf::PrimitiveType type, std::size_t nb_vertex); // Temps de vie de base
-        Particule(const float X,const float Y, sf::PrimitiveType type, std::size_t nb_vertex, float dureeVie); // Temps de vie de base au choix
+        Particule(const float X,const float Y, sf::PrimitiveType type, std::size_t nb_vertex);
+        Particule(const float X,const float Y, sf::PrimitiveType type, std::size_t nb_vertex, float dureeVie);
         virtual ~Particule();
 
         virtual void update(const sf::Time& deltaTime) = 0;
-        virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y) = 0; // On met un jour la vitesse et les coords de la particule
+        virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y) = 0; // update speed and position of particles
         virtual void processPhysics(void) = 0;
         virtual void processCollision(void) = 0;
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -32,12 +32,12 @@ class Particule : public sf::Drawable
     protected:
         bool m_isDead;
         sf::Vector2f m_pos, m_vit;
-        float m_lifeTime, m_lifeTimeMax; // m_lifeTime n'est pas utile pour les utilisateurs
+        float m_lifeTime, m_lifeTimeMax;
         sf::VertexArray m_forme;
 };
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Ball ////////////////////////////////
+    ////////////// Ball particle /////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 class Particule_Ball : public Particule
@@ -61,7 +61,7 @@ class Particule_Ball : public Particule
 };
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Snow ////////////////////////////////
+    ////////////// Snow particle /////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 class Particule_Snow : public Particule
@@ -75,7 +75,7 @@ class Particule_Snow : public Particule
         virtual void update(const sf::Time& deltaTime);
         virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y);
         virtual void processPhysics(void);
-        virtual void processCollision(void) {} // Pas de collisions pour cette particule
+        virtual void processCollision(void) {}
 
     protected:
         float m_radius, m_radiusInit;
@@ -83,7 +83,7 @@ class Particule_Snow : public Particule
 };
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Dot ////////////////////////////////
+    ////////////// Dot particle //////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 class Particule_Dot : public Particule
@@ -97,7 +97,7 @@ class Particule_Dot : public Particule
         virtual void update(const sf::Time& deltaTime);
         virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y);
         virtual void processPhysics(void);
-        virtual void processCollision(void) {} // Pas de collisions pour cette particule
+        virtual void processCollision(void) {}
 
     protected:
         float m_taille;
@@ -105,7 +105,7 @@ class Particule_Dot : public Particule
 };
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Fire ////////////////////////////////
+    ////////////// Fire particle /////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 class Particule_Fire : public Particule
@@ -119,7 +119,7 @@ class Particule_Fire : public Particule
         virtual void update(const sf::Time& deltaTime);
         virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y);
         virtual void processPhysics(void);
-        virtual void processCollision(void) {} // Pas de collisions pour cette particule, on ne fait rien
+        virtual void processCollision(void) {}
 
     protected:
         float m_taille;
@@ -129,7 +129,7 @@ class Particule_Fire : public Particule
 };
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Trail ///////////////////////////////
+    ////////////// Trail particle ////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 class Particule_Trail : public Particule
@@ -142,8 +142,8 @@ class Particule_Trail : public Particule
 
         virtual void update(const sf::Time& deltaTime);
         virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y);
-        virtual void processPhysics(void) {} // Pas de physique, les particules restent sur place
-        virtual void processCollision(void) {} // Pas de collisions pour cette particule, on ne fait rien
+        virtual void processPhysics(void) {} 
+        virtual void processCollision(void) {} 
 
     protected:
         float m_taille;
@@ -152,7 +152,7 @@ class Particule_Trail : public Particule
 
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Dot Falling ///////////////////////// 
+    ////////////// Dot Falling particle ////////////////////////// 
     //////////////////////////////////////////////////////////////
 
 class Particule_Dot_Fall : public Particule
@@ -166,7 +166,7 @@ class Particule_Dot_Fall : public Particule
         virtual void update(const sf::Time& deltaTime);
         virtual void launch(const float X, const float Y, const float vit_X, const float vit_Y);
         virtual void processPhysics(void);
-        virtual void processCollision(void) {} // Pas de collisions pour cette particule
+        virtual void processCollision(void) {} 
 
     protected:
         sf::Vector2f m_posInit, m_vitInit;
@@ -175,4 +175,4 @@ class Particule_Dot_Fall : public Particule
         sf::Color m_color;
 };
 
-#endif // PARTICULE_HPP_INCLUDED
+#endif

@@ -68,7 +68,6 @@ std::size_t Matrix::col() const
 
 Matrix Matrix::operator+(const Matrix& B) const
 {
-	//Vérification de la possibilité d'addition
 	std::size_t rowA = this->row();
 	std::size_t colA = this->col();
 	std::size_t rowB = B.row();
@@ -80,7 +79,6 @@ Matrix Matrix::operator+(const Matrix& B) const
 	std::size_t row = rowA;
 	std::size_t col = colA;
 	
-	//Addition
 	Matrix mat(row, col);
 	
 	for(std::size_t i = 0; i < row; ++i)
@@ -96,7 +94,6 @@ Matrix Matrix::operator+(const Matrix& B) const
 
 Matrix Matrix::operator*(const Matrix& B) const
 {
-	//Vérification de la possibilité de multiplication
 	std::size_t rowA = this->row();
 	std::size_t colA = this->col();
 	std::size_t rowB = B.row();
@@ -108,8 +105,6 @@ Matrix Matrix::operator*(const Matrix& B) const
 	std::size_t temp = colA;
 	std::size_t row = rowA;
 	std::size_t col = colB;
-	
-	//Multiplication
 	
 	Matrix mat(row, col);
 	
@@ -256,7 +251,7 @@ void Matrix::disp() const //Debug function
 
 Matrix BroadCastAdd(const Matrix& A, const Matrix& B) {
 	Matrix res = A;
-	if(B.row() == 1 and B.col()==1) {
+	if(B.row() == 1 && B.col()==1) {
 		for(std::size_t i = 0; i < A.row(); ++i)
 		{
 			for(std::size_t j = 0; j < A.col(); ++j)
@@ -264,7 +259,7 @@ Matrix BroadCastAdd(const Matrix& A, const Matrix& B) {
 				res.setCoeff(i,j,A.getCoeff(i,j)+B.getCoeff(0,0));
 			}
 		}
-	} else if (B.row()==1 and B.col()== A.col()) {
+	} else if (B.row()==1 && B.col()== A.col()) {
 		for(std::size_t i = 0; i < A.row(); ++i)
 		{
 			for(std::size_t j = 0; j < A.col(); ++j)
@@ -272,7 +267,7 @@ Matrix BroadCastAdd(const Matrix& A, const Matrix& B) {
 				res.setCoeff(i,j,A.getCoeff(i,j)+B.getCoeff(0,j));
 			}
 		}
-	} else if (B.row()== A.row() and B.col()== 1) {
+	} else if (B.row()== A.row() && B.col()== 1) {
 		for(std::size_t i = 0; i < A.row(); ++i)
 		{
 			for(std::size_t j = 0; j < A.col(); ++j)

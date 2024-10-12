@@ -43,4 +43,4 @@ Matrix Hadamard(const Matrix& A, const Matrix& B);
 Matrix BroadCastAdd(const Matrix& A, const Matrix& B);
 Matrix SumOnCol(const Matrix& A);
 
-#endif //MATRIX_HPP
+#endif 

@@ -13,7 +13,7 @@ class Masse : public sf::Drawable {
         int m_mass;
         sf::RectangleShape m_shape;
         sf::Vector2f m_pos;
-        bool m_isFixed;  // Indique si la masse est immobile et fixe
+        bool m_isFixed;  // indicates if the mass is fixed
         sf::Vector2f m_vit;
         sf::Vector2f m_acc;
 

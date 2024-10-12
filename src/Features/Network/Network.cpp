@@ -42,8 +42,7 @@ void NetworkCore::join(const std::string& ip, int port, const std::string& name)
 }
 
 void NetworkCore::read() {
-    int msg_size = 256;
-    char data[msg_size];
+    char data[256];
     std::size_t received; 
 
     while(m_connected) {

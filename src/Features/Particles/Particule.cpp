@@ -9,7 +9,7 @@
 
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule de base /////////////////////////////  ( NE DOIS PAS ÊTRE UTILISÉE ! )
+    ////////////// Base particle template ////////////////////////  ( DON'T USE THIS CLASS ! )
     //////////////////////////////////////////////////////////////
 
 Particule::Particule() : m_isDead(false), m_pos(sf::Vector2f(0,0)), m_vit(sf::Vector2f(0,0)), m_lifeTime(0.f), m_lifeTimeMax(0.2f) {}
@@ -30,7 +30,7 @@ Particule::~Particule() {}
 
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Ball ////////////////////////////////
+    ////////////// Ball particle ////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Ball::Particule_Ball() : Particule(0,0, sf::Triangles, 30), m_posInit(sf::Vector2f(m_pos.x, m_pos.y)), m_vitInit(sf::Vector2f(m_vit.x, m_vit.y)),
@@ -88,8 +88,7 @@ void Particule_Ball::update(const sf::Time& deltaTime)
     {
         m_forme[i].position = sf::Vector2f(m_pos.x,m_pos.y);
 
-        // cos et sin en radian
-                                               /* V  Combien de degré pour chaque part du cercle ? (30/3 parts) donc 360/10 = 36*/
+        /* How many degrees for each part of the circle? (30/3 parts) so 360/10 = 36 */
         m_forme[i+1].position = sf::Vector2f(cos(36*(i/3)* PI/180)*m_radius + m_pos.x, sin(36*(i/3)* PI/180)*m_radius + m_pos.y);
         m_forme[i+2].position = sf::Vector2f(cos(36*(i/3+1)* PI/180)*m_radius + m_pos.x, sin(36*(i/3+1)* PI/180)*m_radius + m_pos.y);
 
@@ -99,38 +98,38 @@ void Particule_Ball::update(const sf::Time& deltaTime)
     }
 }
 
-void Particule_Ball::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Particule_Ball::processPhysics(void)
 {
         m_pos.y = -((-0.5) * g * m_timeElapsedJump * m_timeElapsedJump + m_vitInit.y * m_timeElapsedJump) + m_posInit.y;
-        //m_pos.x = m_vitInit.x * m_timeElapsedJump + m_posInit.x; // Cas sans frottements
-        m_pos.x = (m_masse/h) * m_vitInit.x * (1-exp(-h * m_timeElapsedJump / m_masse)) + m_posInit.x; // Cas avec frottements (air)
+        //m_pos.x = m_vitInit.x * m_timeElapsedJump + m_posInit.x; // with friction
+        m_pos.x = (m_masse/h) * m_vitInit.x * (1-exp(-h * m_timeElapsedJump / m_masse)) + m_posInit.x; // with friction (air)
 
         m_vit.y = (-1) * g * m_timeElapsedJump + m_vitInit.y;
-        //m_vit.x = m_vitInit.x; // Cas sans frottements
-        m_vit.x = m_vitInit.x * exp((-h*m_timeElapsedJump)/m_masse); // Cas avec frottements de (air)
+        //m_vit.x = m_vitInit.x; // without friction
+        m_vit.x = m_vitInit.x * exp((-h*m_timeElapsedJump)/m_masse); // with friction (air)
 }
 
-void Particule_Ball::processCollision(void) // Rebond entre la balle et un support = lancer de la balle à une nouvelle vitesse au point de collision
+void Particule_Ball::processCollision(void) // Rebound between ball and support = throw the ball at a new speed at the point of collision
 {
     if(m_pos.y - m_radius < 0) {
         m_pos.y = m_radius;
         m_vit.y = m_vit.y*(-1);
     }
     else if(m_pos.y + m_radius > sf::VideoMode::getDesktopMode().height) {
-        if(m_vit.y > 0 && m_vit.y < 5) {// Cas ou la balle ne rebondit plus
+        if(m_vit.y > 0 && m_vit.y < 5) { // If the ball does not bounce anymore
             m_pos.y = sf::VideoMode::getDesktopMode().height-m_radius;
             m_vit.y = 0;
         }
-        else { // Cas du rebond
+        else { // case of rebound
             m_pos.y = sf::VideoMode::getDesktopMode().height-m_radius;
-            m_vit.y = m_vit.y*(-1) * 0.65 /* Facteur d'Adhérence du sol */;
+            m_vit.y = m_vit.y*(-1) * 0.65 /* Ground Adhesion Factor */;
         }
     }
 
     if(m_pos.x - m_radius < 0) {
         m_pos.x = m_radius;
         m_vit.x = m_vit.x * (-1);
-    } // Rebond sur les cotés
+    } // Rebound on sides
     else if(m_pos.x + m_radius > sf::VideoMode::getDesktopMode().width) {
         m_pos.x = sf::VideoMode::getDesktopMode().width - m_radius;
         m_vit.x = m_vit.x * (-1);
@@ -156,7 +155,7 @@ void Particule_Ball::launch(const float X, const float Y, const float vit_X, con
 Particule_Ball::~Particule_Ball() {}
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Snow ////////////////////////////////
+    ////////////// Snow particle /////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Snow::Particule_Snow() : Particule(0,0,sf::Triangles, 30), m_radius(5), m_radiusInit(m_radius)
@@ -200,7 +199,7 @@ void Particule_Snow::update(const sf::Time& deltaTime)
 
 }
 
-void Particule_Snow::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Particule_Snow::processPhysics(void) 
 {
     m_pos.x += m_vit.x;
     m_pos.y += m_vit.y;
@@ -215,7 +214,7 @@ void Particule_Snow::launch(const float X, const float Y, const float vit_X, con
 Particule_Snow::~Particule_Snow() {}
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Dot ////////////////////////////////
+    ////////////// Dot particle //////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Dot::Particule_Dot() : Particule(0,0,sf::Quads, 4), m_taille(2) {
@@ -252,7 +251,7 @@ void Particule_Dot::update(const sf::Time& deltaTime)
     m_forme[3].color = m_color;
 }
 
-void Particule_Dot::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Particule_Dot::processPhysics(void)
 {
     m_pos.x += m_vit.x;
     m_pos.y += m_vit.y;
@@ -267,7 +266,7 @@ void Particule_Dot::launch(const float X, const float Y, const float vit_X, cons
 Particule_Dot::~Particule_Dot() {}
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Fire ////////////////////////////////
+    ////////////// Fire particle /////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Fire::Particule_Fire() : Particule(0,0,sf::Quads, 4), m_taille(5), phase(randomf(0,6)), amplitude(randomf(0.2,0.5)) {
@@ -318,7 +317,7 @@ void Particule_Fire::update(const sf::Time& deltaTime)
     m_forme[3].color = m_color;
 }
 
-void Particule_Fire::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Particule_Fire::processPhysics(void) 
 {
     m_pos.x += amplitude*cos(m_lifeTime*5+phase);
     m_pos.y += m_vit.y*0.5;
@@ -333,7 +332,7 @@ void Particule_Fire::launch(const float X, const float Y, const float vit_X, con
 Particule_Fire::~Particule_Fire() {}
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Trail ///////////////////////////////
+    ////////////// Trail particle ////////////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Trail::Particule_Trail() : Particule(0,0,sf::Quads, 4), m_taille(30) {
@@ -379,7 +378,7 @@ void Particule_Trail::launch(const float X, const float Y, const float vit_X, co
 Particule_Trail::~Particule_Trail() {}
 
     //////////////////////////////////////////////////////////////
-    ////////////// Particule Dot Falling//////////////////////////
+    ////////////// Dot Falling particle //////////////////////////
     //////////////////////////////////////////////////////////////
 
 Particule_Dot_Fall::Particule_Dot_Fall() : Particule(0,0,sf::Quads, 4), m_posInit(sf::Vector2f(m_pos.x, m_pos.y)), m_vitInit(sf::Vector2f(m_vit.x, m_vit.y)),
@@ -420,15 +419,15 @@ void Particule_Dot_Fall::update(const sf::Time& deltaTime)
     m_forme[3].color = m_color;
 }
 
-void Particule_Dot_Fall::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Particule_Dot_Fall::processPhysics(void) 
 {
         m_pos.y = -((-0.5) * g * m_timeElapsedJump * m_timeElapsedJump + m_vitInit.y * m_timeElapsedJump) + m_posInit.y;
-        //m_pos.x = m_vitInit.x * m_timeElapsedJump + m_posInit.x; // Cas sans frottements
-        m_pos.x = (m_masse/h) * m_vitInit.x * (1-exp(-h * m_timeElapsedJump / m_masse)) + m_posInit.x; // Cas avec frottements (air)
+        //m_pos.x = m_vitInit.x * m_timeElapsedJump + m_posInit.x; // without friction
+        m_pos.x = (m_masse/h) * m_vitInit.x * (1-exp(-h * m_timeElapsedJump / m_masse)) + m_posInit.x; // with friction (air)
 
         m_vit.y = (-1) * g * m_timeElapsedJump + m_vitInit.y;
-        //m_vit.x = m_vitInit.x; // Cas sans frottements
-        m_vit.x = m_vitInit.x * exp((-h*m_timeElapsedJump)/m_masse); // Cas avec frottements de (air)
+        //m_vit.x = m_vitInit.x; // without friction
+        m_vit.x = m_vitInit.x * exp((-h*m_timeElapsedJump)/m_masse); // with friction (air)
 }
 
 void Particule_Dot_Fall::launch(const float X, const float Y, const float vit_X, const float vit_Y)

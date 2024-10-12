@@ -49,7 +49,7 @@ void Ball::update(const sf::Time& deltaTime)
     processCollision();
 }
 
-void Ball::processPhysics(void) // Problème de la balle lancée en (x,y) à la vitesse V(v_x,v_y)
+void Ball::processPhysics(void)
 {
         m_pos.y = -((-0.5) * g * m_timeElapsedJump * m_timeElapsedJump + m_vitInit.y * m_timeElapsedJump) + m_posInit.y;
         //m_pos.x = m_vitInit.x * m_timeElapsedJump + m_posInit.x; // Cas sans frottements
@@ -60,27 +60,27 @@ void Ball::processPhysics(void) // Problème de la balle lancée en (x,y) à la 
         m_vit.x = m_vitInit.x * exp((-h*m_timeElapsedJump)/m_masse); // Cas avec frottements (air)
 }
 
-void Ball::processCollision(void) // Rebond entre la balle et un support = lancer de la balle à une nouvelle vitesse au point de collision
+void Ball::processCollision(void) // Rebound between ball and support = throw the ball at a new speed at the point of collision
 {
         if(m_pos.y - m_radius < 0) {
             m_pos.y = m_radius;
             m_vit.y = m_vit.y*(-1);
         }
         else if(m_pos.y + m_radius > 1080) {
-            if(m_vit.y > 0 && m_vit.y < 5) {// Cas ou la balle ne rebondit plus
+            if(m_vit.y > 0 && m_vit.y < 5) {// If the ball does not bounce anymore
                 m_pos.y = 1080-m_radius;
                 m_vit.y = 0;
             }
-            else { // Cas du rebond
+            else { // Bounce case
                 m_pos.y = 1080-m_radius;
-                m_vit.y = m_vit.y*(-1) * 0.65 /* Facteur d'Adhérence du sol */;
+                m_vit.y = m_vit.y*(-1) * 0.65 /* Ground Adhesion Factor */;
             }
         }
 
         if(m_pos.x - m_radius < 0) {
             m_pos.x = m_radius;
             m_vit.x = m_vit.x * (-1);
-        } // Rebond sur les cotés
+        } // Rebound on sides
         else if(m_pos.x + m_radius > 1920) {
             m_pos.x = 1920 - m_radius;
             m_vit.x = m_vit.x * (-1);

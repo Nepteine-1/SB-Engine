@@ -27,7 +27,7 @@ void ParticuleGenerator::update(sf::Time deltaTime)
         }
     }
 
-    //Quand on finit de mettre à jour le générateur on met a jour la variable prevGenPos
+    // When you finish updating the generator you update the prevGenPos variable
     prevGenPos.x = pos.x;
     prevGenPos.y = pos.y;
 }

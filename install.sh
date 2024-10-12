@@ -12,9 +12,8 @@ printb() {
 
 printb "#==== Launching installation ====#" 2
 cd build
-# Set the argument "DCMAKE_BUILD_TYPE" to Debug or Release
-cmake . -DCMAKE_BUILD_TYPE=Release
-cmake --build . 
+cmake .
+cmake --build . --config Release
 cmake --install .
 rm $TITLE
 cd ..

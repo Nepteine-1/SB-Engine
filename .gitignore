@@ -9,10 +9,12 @@ main_autogen
 main
 SFML_App
 !CMakeLists.txt
-.vcxproj
-.filters
-.sln
+*.vcxproj
+*.filters
+*.sln
 x64
 Debug
-.dir
+*.dir
 Release
+*.vs
+library

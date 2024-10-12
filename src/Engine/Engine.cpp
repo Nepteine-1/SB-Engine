@@ -7,7 +7,7 @@ Engine::Engine(): m_window(sf::VideoMode(1920,1080), "Ressort"), m_eventHandler(
     m_app = new App();
 
     m_timePerFrame = sf::seconds(1.f/120.f);
-    m_window.setFramerateLimit(120); // Apparition de certains artefacts graphiques mais réduit l'utilisation du CPU
+    m_window.setFramerateLimit(120); // Appearance of some graphics artifacts but reduces CPU usage
     m_window.setKeyRepeatEnabled(false);
 
     EventHandler::getEventHandler()->addKeyBoardObserver(this);
@@ -21,11 +21,11 @@ void Engine::run()
 
     while (m_window.isOpen())
     {
-        m_eventHandler->processEvents(m_window); // On détermine les actions relatives aux events à exécuter à la prochaine frame
+        m_eventHandler->processEvents(m_window); // We determine the actions related to the events to be executed at the next frame
         timeSinceLastUpdate += m_timer.restart("Clock1");
         while (timeSinceLastUpdate > m_timePerFrame)
         {
-            m_eventHandler->processEvents(m_window); // On détermine les actions relatives aux events à exécuter à la prochaine frame
+            m_eventHandler->processEvents(m_window); // We determine the actions related to the events to be executed at the next frame
             timeSinceLastUpdate -= m_timePerFrame;
             update(m_timePerFrame);
         }
@@ -43,7 +43,7 @@ void Engine::notify(sf::Event m_event) {
     }   
     else if (m_event.type == sf::Event::Resized)
     {
-        // on met à jour la vue, avec la nouvelle taille de la fenêtre
+        // The view is updated with the new window size
         sf::FloatRect visibleArea(0.f, 0.f, m_event.size.width, m_event.size.height);
         m_window.setView(sf::View(visibleArea));
     }
