@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 set(CMAKE_CXX_STANDARD 11)
 
 #Set a normal variable to a given value
+// set(CMAKE_CXX_FLAGS "-no-pie")
 set(PROJECT_NAME SB_Engine)
 project(${PROJECT_NAME})
 
