@@ -7,7 +7,7 @@ CMakeFiles
 main_autogen
 .vscode
 main
-SFML_App
+SB_Engine
 !CMakeLists.txt
 *.vcxproj
 *.filters
